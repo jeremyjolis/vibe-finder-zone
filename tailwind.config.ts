@@ -47,6 +47,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        music: {
+          purple: "hsl(var(--music-purple))",
+          pink: "hsl(var(--music-pink))",
+          coral: "hsl(var(--music-coral))",
+          blue: "hsl(var(--music-blue))",
+          teal: "hsl(var(--music-teal))",
+          orange: "hsl(var(--music-orange))",
+          green: "hsl(var(--music-green))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

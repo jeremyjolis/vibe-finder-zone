@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -17,26 +17,41 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 267 83% 58%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 220 14% 96%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 220 14% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
+    --accent: 220 14% 96%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 267 83% 58%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Music category colors */
+    --music-purple: 267 83% 58%;
+    --music-pink: 340 82% 52%;
+    --music-coral: 14 83% 53%;
+    --music-blue: 200 95% 40%;
+    --music-teal: 180 83% 40%;
+    --music-orange: 25 95% 53%;
+    --music-green: 142 71% 45%;
+    
+    /* Gradients */
+    --gradient-purple: linear-gradient(135deg, hsl(267, 83%, 58%), hsl(280, 83%, 65%));
+    --gradient-pink: linear-gradient(135deg, hsl(340, 82%, 52%), hsl(350, 82%, 60%));
+    --gradient-blue: linear-gradient(135deg, hsl(200, 95%, 40%), hsl(210, 95%, 50%));
+    --gradient-coral: linear-gradient(135deg, hsl(14, 83%, 53%), hsl(20, 83%, 60%));
 
     --sidebar-background: 0 0% 98%;
 
