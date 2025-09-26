@@ -1,53 +1,78 @@
-import { MoreVertical, Wifi, Battery } from "lucide-react";
+import { Heart, MessageCircle, Send } from "lucide-react";
 
 const MobilePreview = () => {
   return (
-    <div className="w-80 flex flex-col items-center">
-      <div className="bg-black rounded-3xl p-2 shadow-2xl">
-        <div className="bg-black rounded-2xl w-64 h-[500px] relative overflow-hidden">
-          {/* Status Bar */}
-          <div className="flex justify-between items-center px-6 py-2 text-white text-xs">
+    <div className="w-64 h-[500px] bg-black rounded-[2rem] p-2 relative">
+      {/* Phone Frame */}
+      <div className="w-full h-full bg-black rounded-[1.5rem] relative overflow-hidden">
+        {/* Status Bar */}
+        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black/30 to-transparent z-10">
+          <div className="flex justify-between items-center px-4 pt-1 text-white text-xs">
+            <span>11:04</span>
             <div className="flex items-center gap-1">
               <div className="flex gap-1">
                 <div className="w-1 h-1 bg-white rounded-full"></div>
                 <div className="w-1 h-1 bg-white rounded-full"></div>
                 <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="w-1 h-1 bg-white/50 rounded-full"></div>
               </div>
-            </div>
-            <div className="text-white font-medium">9:41</div>
-            <div className="flex items-center gap-1">
-              <Wifi className="w-3 h-3" />
-              <div className="flex gap-1">
-                <div className="w-1 h-3 bg-white rounded-full"></div>
-                <div className="w-1 h-3 bg-white rounded-full"></div>
-                <div className="w-1 h-3 bg-white rounded-full"></div>
+              <div className="w-6 h-3 border border-white rounded-sm">
+                <div className="w-4 h-2 bg-white rounded-sm m-0.5"></div>
               </div>
-              <Battery className="w-4 h-3" />
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="px-4 py-6 h-full flex flex-col">
-            <div className="text-white text-right mb-4">
-              <MoreVertical className="w-5 h-5 ml-auto" />
-            </div>
-            
-            <div className="flex-1 flex items-end">
-              <div className="text-white text-sm bg-black/20 backdrop-blur-sm rounded-lg px-3 py-2">
-                Preview will appear here
-              </div>
-            </div>
-
-            {/* Bottom navigation hint */}
-            <div className="flex justify-center mt-4">
-              <div className="w-32 h-1 bg-white/30 rounded-full"></div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <div className="mt-4 text-center">
-        <p className="text-sm text-muted-foreground">Your story is ready to publish</p>
+
+        {/* Snapchat Story Content */}
+        <div className="w-full h-full bg-gradient-to-b from-green-600 to-green-800 relative">
+          {/* Story Progress Bar */}
+          <div className="absolute top-6 left-4 right-4 h-0.5 bg-white/30 rounded-full z-10">
+            <div className="w-1/3 h-full bg-white rounded-full"></div>
+          </div>
+
+          {/* Profile Info */}
+          <div className="absolute top-10 left-4 flex items-center gap-2 z-10">
+            <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
+              <span className="text-black text-xs font-bold">👻</span>
+            </div>
+            <span className="text-white text-sm font-medium">Jer Jol Ad</span>
+          </div>
+
+          {/* Main Content Area - Waterfall Video Placeholder */}
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-20 h-20 border-2 border-white/30 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom UI */}
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            {/* Story Actions */}
+            <div className="flex justify-between items-end mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
+                  <span className="text-black text-xs font-bold">👻</span>
+                </div>
+                <span className="text-white text-sm">Jer Jol</span>
+                <button>
+                  <Send className="w-4 h-4 text-white" />
+                </button>
+              </div>
+              <button>
+                <Heart className="w-6 h-6 text-white" />
+              </button>
+            </div>
+
+            {/* View Button */}
+            <button className="w-full bg-yellow-400 text-black font-medium py-3 rounded-full text-sm">
+              View
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

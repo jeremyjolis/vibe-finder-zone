@@ -1,105 +1,143 @@
 import { useState } from "react";
-import { CheckCircle2, Circle, Volume2 } from "lucide-react";
+import { ChevronUp } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import MobilePreview from "@/components/MobilePreview";
-import MusicLibrary from "@/components/MusicLibrary";
-import { Slider } from "@/components/ui/slider";
+import SetUpMediaModal from "@/components/SetUpMediaModal";
 import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 const Index = () => {
-  const [originalVolume, setOriginalVolume] = useState([50]);
-  const [musicVolume, setMusicVolume] = useState([50]);
+  const [selectedFormat, setSelectedFormat] = useState("single");
+  const [showMediaModal, setShowMediaModal] = useState(false);
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-gray-50">
       <Sidebar />
       
       <main className="flex-1 flex">
-        <div className="flex-1 p-8 overflow-auto">
-          <div className="max-w-4xl">
-            <h1 className="text-3xl font-bold mb-8">Set up your media</h1>
-            
-            {/* Progress Steps */}
-            <div className="flex items-center gap-8 mb-8">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
-                <span className="text-sm font-medium">Select Media</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Circle className="w-5 h-5 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Crop Media</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Circle className="w-5 h-5 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Template & Caption</span>
-              </div>
+        <div className="flex-1 p-6 overflow-auto">
+          <div className="max-w-2xl">
+            <div className="mb-6">
+              <input 
+                type="text" 
+                placeholder="Name your ad" 
+                className="w-full text-sm text-gray-500 bg-transparent border-none outline-none"
+              />
             </div>
 
-            {/* Sound Section */}
-            <div className="bg-card rounded-lg border border-border p-6 mb-8">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-6 h-6 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-bold">
-                  ♫
-                </div>
-                <h2 className="text-xl font-semibold">Sound</h2>
-              </div>
-
-              <div className="mb-6">
-                <p className="text-sm text-muted-foreground mb-4">
-                  You can replace the original audio or adjust it and add music on top. 
-                  Music is added from the start of the track you choose. The music you add can only be used on Snapchat.
-                </p>
-                
-                <h3 className="font-medium mb-4 flex items-center gap-2">
-                  Volume Options
-                  <div className="w-4 h-4 rounded-full bg-muted flex items-center justify-center text-xs">?</div>
-                </h3>
-                
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-medium">Original</span>
-                      <span className="text-sm text-muted-foreground">{originalVolume[0]}%</span>
+            {/* Ad Format Section */}
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-4">Ad Format</h2>
+              
+              <RadioGroup value={selectedFormat} onValueChange={setSelectedFormat}>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <RadioGroupItem value="single" id="single" className="mt-1" />
+                    <div>
+                      <Label htmlFor="single" className="font-medium">Single Image or Video</Label>
+                      <p className="text-sm text-gray-600">A full-screen ad that shows after or in between content.</p>
                     </div>
-                    <Slider
-                      value={originalVolume}
-                      onValueChange={setOriginalVolume}
-                      max={100}
-                      step={1}
-                      className="w-full"
-                    />
                   </div>
                   
-                  <div>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-medium">Music</span>
-                      <span className="text-sm text-muted-foreground">{musicVolume[0]}%</span>
+                  <div className="flex items-start gap-3">
+                    <RadioGroupItem value="story" id="story" />
+                    <div>
+                      <Label htmlFor="story" className="font-medium">Story Ad</Label>
+                      <p className="text-sm text-gray-600">An ad showing a branded tile that opens into a collection of 1-10 images or videos.</p>
                     </div>
-                    <Slider
-                      value={musicVolume}
-                      onValueChange={setMusicVolume}
-                      max={100}
-                      step={1}
-                      className="w-full"
-                    />
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <RadioGroupItem value="collection" id="collection" />
+                    <div>
+                      <Label htmlFor="collection" className="font-medium">Collection Ad</Label>
+                      <p className="text-sm text-gray-600">A single image or video ad with four tappable tiles to feature your products.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <RadioGroupItem value="ar" id="ar" />
+                    <div>
+                      <Label htmlFor="ar" className="font-medium">AR Ad</Label>
+                      <p className="text-sm text-gray-600">Augmented Reality (AR) creative found in the camera carousel.</p>
+                    </div>
+                  </div>
+                </div>
+              </RadioGroup>
+            </div>
+
+            {/* Ad Creatives Section */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold">Ad Creatives</h2>
+                <button className="text-blue-600 text-sm hover:underline">
+                  See Creative Tips
+                </button>
+              </div>
+              
+              <div className="mb-4">
+                <h3 className="font-medium mb-3">Creative Assets</h3>
+                
+                <div className="border border-gray-200 rounded-lg">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 border-b border-gray-200 rounded-t-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="w-6 h-6 bg-gray-300 rounded flex items-center justify-center">
+                        <div className="w-3 h-3 bg-gray-500 opacity-50" style={{clipPath: 'polygon(0 0, 100% 50%, 0 100%)'}} />
+                      </div>
+                      <span className="font-medium">Image / Video</span>
+                    </div>
+                    <ChevronUp className="w-4 h-4 text-gray-500" />
+                  </div>
+                  
+                  <div className="p-4">
+                    <div className="mb-4">
+                      <h4 className="font-medium mb-2">Media File</h4>
+                      <Button 
+                        onClick={() => setShowMediaModal(true)}
+                        className="bg-yellow-400 hover:bg-yellow-500 text-black font-medium px-6 py-2 rounded-full"
+                      >
+                        📎 Set Up Media
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <MusicLibrary />
             </div>
 
-            <div className="flex justify-end gap-3">
-              <Button variant="outline">Cancel</Button>
-              <Button className="bg-primary hover:bg-primary/90">Done</Button>
+            {/* Ad Identity */}
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-4">Ad Identity</h2>
+              <div className="text-sm text-gray-600">
+                Headline
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <Button variant="outline" className="px-6">Back</Button>
             </div>
           </div>
         </div>
         
-        <div className="w-96 p-8 bg-muted/20 border-l border-border flex items-center justify-center">
-          <MobilePreview />
+        <div className="w-80 p-6 bg-white border-l border-gray-200 flex flex-col">
+          <div className="mb-4">
+            <h3 className="font-medium mb-2">Ad Preview</h3>
+            <div className="mb-2">
+              <label className="text-sm text-gray-600">Placement Preview</label>
+              <select className="w-full mt-1 p-2 border border-gray-200 rounded text-sm">
+                <option>Stories</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex-1 flex items-center justify-center">
+            <MobilePreview />
+          </div>
         </div>
       </main>
+
+      {showMediaModal && (
+        <SetUpMediaModal onClose={() => setShowMediaModal(false)} />
+      )}
     </div>
   );
 };
