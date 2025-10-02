@@ -328,9 +328,9 @@ const EpidemicSoundSearch = ({ onTrackSelect }: EpidemicSoundSearchProps) => {
               
               <div className="flex items-center gap-1">
                 {track.hasVocals ? (
-                  <Mic className="w-4 h-4 text-blue-500" title="Has vocals" />
+                  <Mic className="w-4 h-4 text-blue-500" />
                 ) : (
-                  <MicOff className="w-4 h-4 text-gray-400" title="Instrumental" />
+                  <MicOff className="w-4 h-4 text-gray-400" />
                 )}
               </div>
               

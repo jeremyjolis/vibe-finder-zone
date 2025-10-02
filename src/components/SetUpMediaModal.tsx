@@ -2,7 +2,6 @@ import { useState } from "react";
 import { X, Search, Filter, Upload, Play, Pause, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
 import CompactMusicLibrary from "./CompactMusicLibrary";
 
@@ -13,8 +12,6 @@ interface SetUpMediaModalProps {
 const SetUpMediaModal = ({ onClose }: SetUpMediaModalProps) => {
   const [activeTab, setActiveTab] = useState("select");
   const [selectedMusic, setSelectedMusic] = useState("");
-  const [originalVolume, setOriginalVolume] = useState([50]);
-  const [musicVolume, setMusicVolume] = useState([50]);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
@@ -240,55 +237,9 @@ const SetUpMediaModal = ({ onClose }: SetUpMediaModalProps) => {
                     />
                   </div>
                   
-                  <p className="text-sm text-gray-600 mb-6">
+                  <p className="text-sm text-gray-600">
                     You can replace the original audio or adjust it and add music on top. Music is added from the start of the track you choose. The music you add can only be used on Snapchat.
                   </p>
-
-                  <div className="mb-6">
-                    <h3 className="font-medium mb-4 flex items-center gap-2">
-                      Volume Options
-                      <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center text-xs">?</div>
-                    </h3>
-                    
-                    <div className="grid grid-cols-2 gap-8 mb-6">
-                      <div>
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-sm font-medium">Original</span>
-                          <div className="flex items-center gap-4 text-sm text-gray-500">
-                            <span>0%</span>
-                            <span>50%</span>
-                            <span>100%</span>
-                          </div>
-                        </div>
-                        <Slider
-                          value={originalVolume}
-                          onValueChange={setOriginalVolume}
-                          max={100}
-                          step={1}
-                          className="w-full"
-                        />
-                      </div>
-                      
-                      <div>
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-sm font-medium">Music</span>
-                          <div className="flex items-center gap-4 text-sm text-gray-500">
-                            <span>0%</span>
-                            <span>50%</span>
-                            <span>100%</span>
-                          </div>
-                        </div>
-                        <Slider
-                          value={musicVolume}
-                          onValueChange={setMusicVolume}
-                          max={100}
-                          step={1}
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </TabsContent>
 
