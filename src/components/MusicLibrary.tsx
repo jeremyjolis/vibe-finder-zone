@@ -14,6 +14,13 @@ const playlists = [
   { title: "Seasonal", gradient: "bg-gradient-to-br from-music-coral to-music-orange", icon: "🌴" },
 ];
 
+import albumArt1 from "@/assets/album-art-1.jpg";
+import albumArt2 from "@/assets/album-art-2.jpg";
+import albumArt3 from "@/assets/album-art-3.jpg";
+import albumArt4 from "@/assets/album-art-4.jpg";
+import albumArt5 from "@/assets/album-art-5.jpg";
+import albumArt6 from "@/assets/album-art-6.jpg";
+
 const songs = [
   { 
     title: "What a Morning", 
@@ -21,6 +28,7 @@ const songs = [
     mood: "Countryside, Peaceful", 
     genre: "Hip hop",
     albumColor: "bg-music-orange",
+    artwork: albumArt3,
     hasVocals: true,
     isTrending: false,
     theme: "Peaceful"
@@ -31,6 +39,7 @@ const songs = [
     mood: "Dreamy, Eccentric", 
     genre: "Electronic",
     albumColor: "bg-music-blue",
+    artwork: albumArt2,
     hasVocals: false,
     isTrending: true,
     theme: "Energetic"
@@ -41,6 +50,7 @@ const songs = [
     mood: "Dreamy, Epic", 
     genre: "Ambient, Electronic",
     albumColor: "bg-music-pink",
+    artwork: albumArt1,
     hasVocals: false,
     isTrending: false,
     theme: "Cinematic"
@@ -51,6 +61,7 @@ const songs = [
     mood: "Energetic, Futuristic", 
     genre: "Synthwave",
     albumColor: "bg-music-purple",
+    artwork: albumArt5,
     hasVocals: true,
     isTrending: true,
     theme: "Upbeat"
@@ -61,6 +72,7 @@ const songs = [
     mood: "Relaxing, Peaceful", 
     genre: "Ambient",
     albumColor: "bg-music-teal",
+    artwork: albumArt4,
     hasVocals: false,
     isTrending: false,
     theme: "Peaceful"
@@ -71,6 +83,7 @@ const songs = [
     mood: "Energetic, Modern", 
     genre: "Electronic",
     albumColor: "bg-music-purple",
+    artwork: albumArt6,
     hasVocals: true,
     isTrending: true,
     theme: "Dramatic"
@@ -194,6 +207,7 @@ const MusicLibrary = () => {
                   mood={song.mood}
                   genre={song.genre}
                   albumColor={song.albumColor}
+                  artwork={song.artwork}
                   hasVocals={song.hasVocals}
                   isTrending={song.isTrending}
                   theme={song.theme}

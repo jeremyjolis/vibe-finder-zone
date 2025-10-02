@@ -9,6 +9,7 @@ interface SongItemProps {
   mood: string;
   genre: string;
   albumColor: string;
+  artwork?: string;
   hasVocals?: boolean;
   isTrending?: boolean;
   theme?: string;
@@ -21,7 +22,8 @@ const SongItem = ({
   artist, 
   mood, 
   genre, 
-  albumColor, 
+  albumColor,
+  artwork, 
   hasVocals = true,
   isTrending = false,
   theme = "Upbeat",
@@ -32,8 +34,18 @@ const SongItem = ({
 
   return (
     <div className="flex items-center gap-4 p-3 hover:bg-muted/30 rounded-lg transition-colors group border border-transparent hover:border-gray-200">
-      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${albumColor} relative`}>
-        <Music className="w-6 h-6 text-white" />
+      <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+        {artwork ? (
+          <img 
+            src={artwork} 
+            alt={`${title} album art`}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className={`w-full h-full flex items-center justify-center ${albumColor}`}>
+            <Music className="w-6 h-6 text-white" />
+          </div>
+        )}
         {isTrending && (
           <div className="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
             <TrendingUp className="w-2.5 h-2.5 text-white" />
