@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { X, Search, Filter, Upload } from "lucide-react";
+import { X, Search, Filter, Upload, Play, Pause, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import CompactMusicLibrary from "./CompactMusicLibrary";
 
 interface SetUpMediaModalProps {
   onClose: () => void;
@@ -15,15 +15,53 @@ const SetUpMediaModal = ({ onClose }: SetUpMediaModalProps) => {
   const [selectedMusic, setSelectedMusic] = useState("");
   const [originalVolume, setOriginalVolume] = useState([50]);
   const [musicVolume, setMusicVolume] = useState([50]);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const musicTracks = [
-    { id: "edm10", name: "EDM 10", color: "bg-purple-500" },
-    { id: "pop15", name: "Pop 15", color: "bg-pink-500" },
-    { id: "hiphop3", name: "Hip Hop 3", color: "bg-blue-500" },
-    { id: "pop9", name: "Pop 9", color: "bg-pink-400" },
-    { id: "hiphop17", name: "Hip Hop 17", color: "bg-blue-400" },
-    { id: "pop6", name: "Pop 6", color: "bg-pink-400" },
-  ];
+  const handleFileUpload = async (file: File) => {
+    console.log("Starting upload for:", file.name);
+    setUploadedFile(file);
+    setIsUploading(true);
+    setUploadProgress(0);
+
+    // Create preview URL for the file
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+
+    // Simulate upload progress
+    const uploadInterval = setInterval(() => {
+      setUploadProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(uploadInterval);
+          setIsUploading(false);
+          console.log("Upload completed for:", file.name);
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 200);
+
+    // In a real implementation, you would upload to your server here
+    // Example:
+    // const formData = new FormData();
+    // formData.append('file', file);
+    // const response = await fetch('/api/upload', {
+    //   method: 'POST',
+    //   body: formData
+    // });
+  };
+
+  const resetUpload = () => {
+    setUploadedFile(null);
+    setUploadProgress(0);
+    setIsUploading(false);
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+      setPreviewUrl(null);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -91,48 +129,114 @@ const SetUpMediaModal = ({ onClose }: SetUpMediaModalProps) => {
                   <h3 className="font-medium mb-2">September 26, 2025</h3>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="relative bg-gray-100 rounded-lg aspect-video overflow-hidden">
-                    <img 
-                      src="/placeholder.svg" 
-                      alt="Waterfall video"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
-                      00:00:54
-                    </div>
-                    <div className="absolute bottom-2 left-2 text-white text-xs">
-                      7297870-<br />
-                      hd_1080_1920_3<br />
-                      0fps.mp4
-                    </div>
-                  </div>
-                  <div className="relative bg-gray-100 rounded-lg aspect-video overflow-hidden">
-                    <img 
-                      src="/placeholder.svg" 
-                      alt="Waterfall video"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
-                      00:00:54
-                    </div>
-                    <div className="absolute bottom-2 left-2 text-white text-xs">
-                      7297870-<br />
-                      hd_1080_1920_3<br />
-                      0fps.mp4
-                    </div>
+                <div className="flex justify-center">
+                  {/* Upload Area - Centered */}
+                  <div className="w-80">
+                    {!uploadedFile ? (
+                      <div className="relative bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg aspect-square flex flex-col items-center justify-center hover:border-gray-400 hover:bg-gray-100 transition-colors cursor-pointer group">
+                        <input 
+                          type="file" 
+                          accept="image/*,video/*" 
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              console.log("File selected:", file.name);
+                              handleFileUpload(file);
+                            }
+                          }}
+                        />
+                        <div className="text-center">
+                          <Upload className="w-16 h-16 text-gray-400 group-hover:text-gray-600 mx-auto mb-6" />
+                          <p className="text-xl font-medium text-gray-600 group-hover:text-gray-800 mb-3">
+                            Upload Creative
+                          </p>
+                          <p className="text-base text-gray-500 mb-6">
+                            Drag & drop or click to browse
+                          </p>
+                          <p className="text-sm text-gray-400">
+                            Supports: JPG, PNG, MP4, MOV<br />
+                            Max size: 100MB
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative bg-gray-100 rounded-lg aspect-square overflow-hidden">
+                        {/* Preview */}
+                        {previewUrl && (
+                          <>
+                            {uploadedFile.type.startsWith('video/') ? (
+                              <video 
+                                src={previewUrl} 
+                                className="w-full h-full object-cover"
+                                controls
+                                muted
+                              />
+                            ) : (
+                              <img 
+                                src={previewUrl} 
+                                alt="Uploaded content"
+                                className="w-full h-full object-cover"
+                              />
+                            )}
+                          </>
+                        )}
+
+                        {/* Upload Progress Overlay */}
+                        {isUploading && (
+                          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
+                            <div className="bg-white rounded-lg p-6 max-w-xs w-full mx-4">
+                              <div className="text-center mb-4">
+                                <Upload className="w-8 h-8 text-blue-500 mx-auto mb-2" />
+                                <p className="font-medium">Uploading...</p>
+                                <p className="text-sm text-gray-500">{uploadedFile.name}</p>
+                              </div>
+                              <Progress value={uploadProgress} className="mb-2" />
+                              <p className="text-xs text-gray-500 text-center">{uploadProgress}% complete</p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Success State */}
+                        {!isUploading && uploadProgress === 100 && (
+                          <div className="absolute top-2 right-2 bg-green-500 text-white rounded-full p-1">
+                            <CheckCircle className="w-4 h-4" />
+                          </div>
+                        )}
+
+                        {/* File Info */}
+                        <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                          {uploadedFile.name}
+                        </div>
+
+                        {/* Replace Button */}
+                        <div className="absolute top-2 left-2">
+                          <Button 
+                            size="sm" 
+                            variant="secondary"
+                            onClick={resetUpload}
+                            className="text-xs"
+                          >
+                            Replace
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </TabsContent>
 
               <TabsContent value="sound" className="mt-0">
                 <div className="mb-6">
-                  <div className="relative mb-4">
-                    <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Search music tracks"
-                      className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full"
+                  {/* Unified Music Library */}
+                  <div className="w-full mb-6">
+                    <CompactMusicLibrary 
+                      maxHeight="350px"
+                      onTrackSelect={(track) => {
+                        console.log("Selected track:", track);
+                        setSelectedMusic(track.id);
+                      }}
+                      enableAdvancedSearch={true}
                     />
                   </div>
                   
@@ -185,30 +289,6 @@ const SetUpMediaModal = ({ onClose }: SetUpMediaModalProps) => {
                     </div>
                   </div>
 
-                  <RadioGroup value={selectedMusic} onValueChange={setSelectedMusic}>
-                    <div className="grid grid-cols-2 gap-4">
-                      {musicTracks.map((track) => (
-                        <div key={track.id} className="border border-gray-200 rounded-lg p-4 hover:border-gray-300">
-                          <div className="flex items-center gap-3">
-                            <RadioGroupItem value={track.id} id={track.id} />
-                            <div className={`w-12 h-12 ${track.color} rounded-lg flex items-center justify-center`}>
-                              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-                              </svg>
-                            </div>
-                            <div className="flex-1">
-                              <Label htmlFor={track.id} className="font-medium cursor-pointer">
-                                {track.name}
-                              </Label>
-                              <Button variant="outline" size="sm" className="ml-auto">
-                                Play Sample
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </RadioGroup>
                 </div>
               </TabsContent>
 
